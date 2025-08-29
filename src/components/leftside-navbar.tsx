@@ -9,13 +9,22 @@ import {
   AppBar,
   Typography,
   CssBaseline,
-  Box
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 
 export default function LeftsideNavbar() {
+  const navigate = useNavigate();
+  const navItems = ["Home", "About", "Contact"];
   const [open, setOpen] = useState(false);
+
+  const handleNavItemClick = (navItem: string) => {
+    const navLink = navItem === "Home" ? "/" : `/${navItem.toLowerCase()}`;
+    navigate(navLink);
+    setOpen(false);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -24,15 +33,11 @@ export default function LeftsideNavbar() {
       {/* Top Navbar */}
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={() => setOpen(true)}
-          >
+          <IconButton color="inherit" edge="start" onClick={() => setOpen(true)}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            My App
+            Finance Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -41,8 +46,12 @@ export default function LeftsideNavbar() {
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
         <Box sx={{ width: 250 }} role="presentation">
           <List>
-            {["Home", "About", "Contact"].map((text) => (
-              <ListItem key={text} disablePadding>
+            {navItems.map((text) => (
+              <ListItem
+                onClick={() => handleNavItemClick(text)}
+                key={text}
+                disablePadding
+              >
                 <ListItemButton>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -54,8 +63,8 @@ export default function LeftsideNavbar() {
 
       {/* Main Content */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
-        <Typography paragraph>Here goes your content.</Typography>
+        <Toolbar /> 
+        <Outlet />
       </Box>
     </Box>
   );

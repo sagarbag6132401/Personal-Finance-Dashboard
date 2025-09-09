@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { Card } from "../card/Card";
 import { cards } from "../Constants/constants";
 import { Transactions } from "../transactions/Transactions";
 import "./Home.scss";
 export default function Home() {
+  useEffect(() => {
+    document.title = "Home - Personal Finance Dashboard";
+  }, []);
+  
   return (
     <div className="dashboard">
       <div className="cards">

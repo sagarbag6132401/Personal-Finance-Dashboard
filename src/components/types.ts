@@ -7,5 +7,5 @@ export interface DataType {
   key: React.Key;
   description: string;
   amount: number;
-  category: string;
+  transactionType: string;
 }

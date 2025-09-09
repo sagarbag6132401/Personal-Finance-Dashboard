@@ -1,0 +1,15 @@
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .cards{
+       display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #06835f; 
+        padding: 10px;
+        border-radius: 8px;
+    }
+    
+
+}

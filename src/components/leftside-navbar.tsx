@@ -1,71 +1,95 @@
+import React, { useState } from "react";
 import {
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-  AppBar,
-  Typography,
-  CssBaseline,
-  Box,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Button, Layout, Menu, theme, Typography, type MenuProps } from "antd";
+import "./leftside-navbar.css";
 import { useNavigate, Outlet } from "react-router-dom";
 
-export default function LeftsideNavbar() {
+const { Header, Sider, Content } = Layout;
+const { Title } = Typography;
+
+const LeftsideNavbar: React.FC = () => {
+  const [collapsed, setCollapsed] = useState(false);
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   const navigate = useNavigate();
-  const navItems = ["Home", "About", "Contact"];
-  const [open, setOpen] = useState(false);
 
-  const handleNavItemClick = (navItem: string) => {
-    const navLink = navItem === "Home" ? "/" : `/${navItem.toLowerCase()}`;
+  const handleNavItemClick: MenuProps["onClick"] = (e) => {
+    const navLink = e.key === "home" ? "/" : `/${String(e.key).toLowerCase()}`;
     navigate(navLink);
-    setOpen(false);
   };
-
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-
-      {/* Top Navbar */}
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={() => setOpen(true)}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
+    <Layout className="layout">
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          onClick={handleNavItemClick}
+          items={[
+            {
+              key: "home",
+              icon: <UserOutlined />,
+              label: "Home",
+            },
+            {
+              key: "about",
+              icon: <VideoCameraOutlined />,
+              label: "About",
+            },
+            {
+              key: "contact",
+              icon: <UploadOutlined />,
+              label: "Contact Us",
+            },
+          ]}
+        />
+      </Sider>
+      <Layout>
+        <Header
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        >
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "16px",
+              width: 64,
+              height: 64,
+            }}
+          />
+          <Title level={4} style={{ color: "#001529", margin: 0 }}>
             Finance Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      {/* Sidebar Drawer */}
-      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
-        <Box sx={{ width: 250 }} role="presentation">
-          <List>
-            {navItems.map((text) => (
-              <ListItem
-                onClick={() => handleNavItemClick(text)}
-                key={text}
-                disablePadding
-              >
-                <ListItemButton>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-
-      {/* Main Content */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar /> 
-        <Outlet />
-      </Box>
-    </Box>
+          </Title>
+        </Header>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          <Outlet />
+        </Content>
+      </Layout>
+    </Layout>
   );
-}
+};
+
+export default LeftsideNavbar;

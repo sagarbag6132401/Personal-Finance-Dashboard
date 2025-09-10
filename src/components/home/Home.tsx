@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Card } from "../card/Card";
-import { cards } from "../Constants/constants";
+import { cards } from "../../constants/constants";
 import { Transactions } from "../transactions/Transactions";
 import "./Home.scss";
 export default function Home() {

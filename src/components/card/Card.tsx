@@ -1,5 +1,5 @@
 import "./Card.scss";
-import type { CardProps } from "../types";
+import type { CardProps } from "../../types/transactionTypes";
 export const Card: React.FC<CardProps> = ({ icon, amount, amountType }) => {
   return (
     <div className="maincard">

@@ -9,3 +9,15 @@ export interface DataType {
   amount: number;
   transactionType: string;
 }
+
+export interface Transaction {
+  key: string;
+  description: string;
+  amount: number;
+  transactionType: string;
+  date?: string;
+}
+
+export interface StateType {
+  allTransactions: Transaction[];
+}
